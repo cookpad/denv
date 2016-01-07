@@ -24,7 +24,7 @@ $ bundle
 Then call `Denv.load` in your application initialization.
 
 ### Rails integration
-Denv automatically set initializer for your Rails application, so you only have to write gem dependency to your Gemfile.
+denv automatically sets initializer for your Rails application, so you only have to write gem dependency to your Gemfile.
 
 ## Development
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
