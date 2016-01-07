@@ -3,7 +3,7 @@
 
 denv = dotenv + Docker envfile format
 
-No special treatments about shell meta characters (e.g. `$`).
+Loads environment variables to `ENV` from `.env` file. No special treatments about shell meta characters (e.g. `$`).
 
 ## Usage
 Add this line to your application's Gemfile:
@@ -21,7 +21,18 @@ And then execute:
 $ bundle
 ```
 
-Then call `Denv.load` in your application initialization.
+Write your envfile at `.env`:
+
+```sh
+AWESOME_SERVICE_CREDENTIAL=xxxxxx
+ANOTHER_CREDENTIAL=xxxxxx
+```
+
+Then call `Denv.load` in your application initialization. Now you can refer env vars via `ENV`.
+
+```ruby
+puts ENV['AWESOME_SERVICE_CREDENTIAL'] #=> "xxxxxx"
+```
 
 ### Rails integration
 denv automatically sets initializer for your Rails application, so you only have to write gem dependency to your Gemfile.

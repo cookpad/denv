@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Taiki Ono']
   spec.email         = ['taiks.4559@gmail.com']
 
-  spec.summary       = %q{dotenv + Docker envfile. No special treatments about shell meta characters.}
+  spec.summary       = %q{Loads environment variables to `ENV` from `.env` file. No special treatments about shell meta characters.}
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/taiki45/denv'
   spec.license       = 'MIT'
