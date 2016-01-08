@@ -12,9 +12,9 @@ module Denv
   class Railtie < ::Rails::Railtie
     DEFAULT_ENV_FILES = %w[.env.local .env.#{Rails.env} .env]
 
-    config.before_configuration { load }
+    config.before_configuration { load_env }
 
-    def load
+    def load_env
       DEFAULT_ENV_FILES.map {|name| root.join(name) }.select(&:exist?).each do |path|
         Denv.load(path)
       end
@@ -22,14 +22,6 @@ module Denv
 
     def root
       Rails.root || Pathname.new(ENV['RAILS_ROOT'] || Dir.pwd)
-    end
-
-    # Brought from dotenv.
-    #
-    # Rails uses `#method_missing` to delegate all class methods to the
-    # instance, which means `Kernel#load` gets called here. We don't want that.
-    def self.load
-      instance.load
     end
   end
 end
