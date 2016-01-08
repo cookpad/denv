@@ -67,6 +67,22 @@ RSpec.describe Denv do
           expect(parser.parse).to eq('x' => 'a text with whitespaces', 'y' => '345')
         end
       end
+
+      context 'with single quoted value' do
+        let(:content) { "x='a text with single quotes'\ny='345'\n" }
+
+        it 'does not ignore single quotes' do
+          expect(parser.parse).to eq('x' => "'a text with single quotes'", 'y' => "'345'")
+        end
+      end
+
+      context 'with double quoted value' do
+        let(:content) { %!x="a text with double quotes"\ny="345"\n! }
+
+        it 'does not ignore double quotes' do
+          expect(parser.parse).to eq('x' => '"a text with double quotes"', 'y' => '"345"')
+        end
+      end
     end
   end
 end
