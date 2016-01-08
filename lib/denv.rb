@@ -27,12 +27,28 @@ module Denv
 
     attr_accessor :callback
 
+    # Read from .env file and load vars into `ENV`.
+    # Default is over-write.
+    # @param [String] filename
+    # @return [Hash] env
     def load(filename = DEFAULT_ENV_FILENAME)
       filename = File.expand_path(filename.to_s)
       run_callback(filename) do
-        env = File.open(filename) {|f| Parser.new(f, filename).parse }
-        env.each {|k, v| ENV[k] ||= v }
+        build_env(filename).each {|k, v| ENV[k] = v }
       end
+    end
+
+    # Read from .env file and build env Hash.
+    # @param [String] filename
+    # @return [Hash] loaded environment variables
+    def build_env(filename)
+      open_file(filename) {|f| Parser.new(f, filename).parse }
+    end
+
+    private
+
+    def open_file(filename)
+      File.open(filename) {|f| yield f }
     rescue Errno::ENOENT
       raise NoSuchFileError.new(filename)
     end

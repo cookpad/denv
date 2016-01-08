@@ -3,7 +3,10 @@
 
 denv = dotenv + Docker envfile format
 
-Loads environment variables to `ENV` from `.env` file. No special treatments about shell meta characters (e.g. `$`).
+Loads environment variables to `ENV` from `.env` file.
+
+- No special treatments about shell meta characters (e.g. `$`).
+- Behaves as over-write.
 
 ## Usage
 Add this line to your application's Gemfile:
