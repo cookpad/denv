@@ -34,7 +34,7 @@ module Denv
     def load(filename = DEFAULT_ENV_FILENAME)
       filename = File.expand_path(filename.to_s)
       run_callback(filename) do
-        build_env(filename).each {|k, v| ENV[k] = v }
+        ENV.update(build_env(filename))
       end
     end
 
