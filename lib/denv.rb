@@ -22,9 +22,9 @@ module Denv
     end
   end
 
-  class << self
-    DEFAULT_ENV_FILENAME = '.env'.freeze
+  DEFAULT_ENV_FILENAME = '.env'.freeze
 
+  class << self
     attr_accessor :callback
 
     # Read from .env file and load vars into `ENV`.

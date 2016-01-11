@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+lib = File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'denv'
+
+def puts_version!
+  puts Denv::VERSION
+  exit
+end
+
+require 'optparse'
+filename = Denv::DEFAULT_ENV_FILENAME
+opt = OptionParser.new.
+  on('-f', '--filename FILENAME') {|v| filename = v }
+opt.version = Denv::VERSION
+opt.banner = "Usage: #{opt.program_name} [options] command [argument ...]"
+
+begin
+  command = opt.parse(ARGV)
+rescue OptionParser::InvalidOption
+  puts opt.help
+  exit 1
+end
+
+Denv.load(filename)
+
+if command.empty?
+  puts opt.help
+  exit 1
+else
+  exec(*command)
+end
