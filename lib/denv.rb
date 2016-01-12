@@ -23,6 +23,8 @@ module Denv
   end
 
   DEFAULT_ENV_FILENAME = '.env'.freeze
+  SPECIAL_KEY = '__denv_previous_keys__'.freeze
+  DELIMITER = '='
 
   class << self
     attr_accessor :callback
@@ -34,7 +36,11 @@ module Denv
     def load(filename = DEFAULT_ENV_FILENAME)
       filename = File.expand_path(filename.to_s)
       run_callback(filename) do
-        ENV.update(build_env(filename))
+        env = build_env(filename)
+        previous_keys = (ENV[SPECIAL_KEY] || '').split(DELIMITER)
+        ENV.delete_if {|k, _| previous_keys.include?(k) } unless previous_keys.empty?
+        ENV.update(env)
+        ENV[SPECIAL_KEY] = env.keys.join(DELIMITER)
       end
     end
 
