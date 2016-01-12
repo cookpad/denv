@@ -10,6 +10,7 @@ end
 desc 'Run all tests'
 task :test do
   Rake::Task[:spec].invoke
+  Rake::Task[:reload_env_test].invoke
   Rake::Task[:integration_test].invoke
 end
 
@@ -20,4 +21,9 @@ end
 
 def execute_without_bundler
   defined?(Bundler) ? Bundler.with_clean_env { yield } : yield
+end
+
+desc 'Run reload_env_test'
+task :reload_env_test do
+  exit(1) unless ruby('reload_env_test.rb')
 end
