@@ -23,6 +23,8 @@ module Denv
   end
 
   DEFAULT_ENV_FILENAME = '.env'.freeze
+  SPECIAL_KEY = '__denv_previous_keys__'.freeze
+  DELIMITER = '='.freeze
 
   class << self
     attr_accessor :callback
@@ -34,7 +36,10 @@ module Denv
     def load(filename = DEFAULT_ENV_FILENAME)
       filename = File.expand_path(filename.to_s)
       run_callback(filename) do
-        ENV.update(build_env(filename))
+        remove_previous_denv_envs
+        env = build_env(filename)
+        ENV.update(env)
+        ENV[SPECIAL_KEY] = env.keys.join(DELIMITER)
       end
     end
 
@@ -46,6 +51,15 @@ module Denv
     end
 
     private
+
+    def remove_previous_denv_envs
+      return unless ENV[SPECIAL_KEY]
+
+      previous_keys = ENV[SPECIAL_KEY].split(DELIMITER)
+      unless previous_keys.empty?
+        ENV.delete_if {|k, _| previous_keys.include?(k) }
+      end
+    end
 
     def open_file(filename)
       File.open(filename) {|f| yield f }
@@ -60,8 +74,8 @@ module Denv
   end
 
   class Parser
-    COMMENT_CHAR = '#'
-    DELIMITER = '='
+    COMMENT_CHAR = '#'.freeze
+    DELIMITER = '='.freeze
     WHITE_SPACES = /\s/
 
     def initialize(io, filename)

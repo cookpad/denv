@@ -7,6 +7,7 @@ Loads environment variables to `ENV` from `.env` file.
 
 - No special treatments about shell meta characters (e.g. `$`).
 - Behaves as over-write.
+- Env vars are removed on loading when they are removed from `.env` file. This is useful when use unicorn's graceful reloading.
 
 ## Usage
 Add this line to your application's Gemfile:
