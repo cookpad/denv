@@ -24,7 +24,7 @@ module Denv
 
   DEFAULT_ENV_FILENAME = '.env'.freeze
   SPECIAL_KEY = '__denv_previous_keys__'.freeze
-  DELIMITER = '='
+  DELIMITER = '='.freeze
 
   class << self
     attr_accessor :callback
@@ -74,8 +74,8 @@ module Denv
   end
 
   class Parser
-    COMMENT_CHAR = '#'
-    DELIMITER = '='
+    COMMENT_CHAR = '#'.freeze
+    DELIMITER = '='.freeze
     WHITE_SPACES = /\s/
 
     def initialize(io, filename)
