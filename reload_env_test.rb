@@ -7,8 +7,10 @@ require 'fileutils'
 FileUtils.rm_rf('tmp')
 FileUtils.mkdir_p('tmp')
 Dir.chdir('tmp') do
+  ENV['INIT'] = '1'
   File.write('.env', "XXX=1\nYYY=2\n")
   Denv.load
+  raise('Necessary keys are removed') unless ENV.has_key?('INIT')
   raise('Can not set env') unless ENV['YYY'] == '2'
 
   File.write('.env', "XXX=1\n")
