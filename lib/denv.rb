@@ -36,9 +36,8 @@ module Denv
     def load(filename = DEFAULT_ENV_FILENAME)
       filename = File.expand_path(filename.to_s)
       run_callback(filename) do
+        remove_previous_denv_envs
         env = build_env(filename)
-        previous_keys = (ENV[SPECIAL_KEY] || '').split(DELIMITER)
-        ENV.delete_if {|k, _| previous_keys.include?(k) } unless previous_keys.empty?
         ENV.update(env)
         ENV[SPECIAL_KEY] = env.keys.join(DELIMITER)
       end
@@ -52,6 +51,15 @@ module Denv
     end
 
     private
+
+    def remove_previous_denv_envs
+      return unless ENV[SPECIAL_KEY]
+
+      previous_keys = ENV[SPECIAL_KEY].split(DELIMITER)
+      unless previous_keys.empty?
+        ENV.delete_if {|k, _| previous_keys.include?(k) }
+      end
+    end
 
     def open_file(filename)
       File.open(filename) {|f| yield f }
