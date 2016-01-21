@@ -1,4 +1,7 @@
 # CHANGELOG.md for denv
+## 0.2.3
+- Improve help message of CLI tool.
+
 ## 0.2.2
 - Env vars are removed on loading when they are removed from `.env` file. This is useful when use unicorn's graceful reloading.
 
