@@ -45,7 +45,7 @@ denv automatically sets initializer for your Rails application, so you only have
 ```
 denv --help
 echo 'XXX=1' > .env
-denv env |grep XXX #=> XXX=1
+denv -- env | grep XXX #=> XXX=1
 ```
 
 ## Development
