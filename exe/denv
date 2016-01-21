@@ -13,7 +13,7 @@ filename = Denv::DEFAULT_ENV_FILENAME
 opt = OptionParser.new.
   on('-f', '--filename FILENAME') {|v| filename = v }
 opt.version = Denv::VERSION
-opt.banner = "Usage: #{opt.program_name} [options] command [argument ...]"
+opt.banner = "Usage: #{opt.program_name} [options] -- command [argument ...]"
 
 begin
   command = opt.parse(ARGV)
@@ -22,11 +22,10 @@ rescue OptionParser::InvalidOption
   exit 1
 end
 
-Denv.load(filename)
-
 if command.empty?
   puts opt.help
   exit 1
 else
+  Denv.load(filename)
   exec(*command)
 end
