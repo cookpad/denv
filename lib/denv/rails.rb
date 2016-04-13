@@ -1,8 +1,11 @@
 # Watch all loaded env files with Spring
 begin
   require 'spring/watcher'
-  Denv.callback = -> (filename) do
-    Spring.watch(filename) if Rails.application
+
+  if Spring.respond_to?(:watch)
+    Denv.callback = -> (filename) do
+      Spring.watch(filename) if Rails.application
+    end
   end
 rescue LoadError
   # Spring is not available
