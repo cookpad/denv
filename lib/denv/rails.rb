@@ -13,7 +13,7 @@ end
 
 module Denv
   class Railtie < ::Rails::Railtie
-    DEFAULT_ENV_FILES = %w[.env.local .env.#{Rails.env} .env]
+    DEFAULT_ENV_FILES = %w[.env .env.#{Rails.env} .env.local]
 
     config.before_configuration { load_env }
 
