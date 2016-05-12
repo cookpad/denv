@@ -1,4 +1,7 @@
 # CHANGELOG.md for denv
+## 0.2.5
+- Correct loading order to overwirte default one #3
+
 ## 0.2.4
 - Work around for old spring gem (< 0.0.8)
 
