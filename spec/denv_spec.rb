@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rcredstash'
 
 RSpec.describe Denv do
   describe Denv::Parser do
@@ -89,6 +90,23 @@ RSpec.describe Denv do
 
         it 'render and parse it' do
           expect(parser.parse).to eq('x' => '3')
+        end
+      end
+
+      context 'with credstash credential' do
+        let(:content) { "x=<%= retrieve('password') %>\n" }
+
+        before do
+          Denv::Storage.type = Denv::Storage::CredStash
+          expect(CredStash).to receive(:get).with('password').and_return('awesome_password')
+        end
+
+        after do
+          Denv::Storage.reset
+        end
+
+        it 'retrieve credentials' do
+          expect(parser.parse).to eq('x' => 'awesome_password')
         end
       end
     end
