@@ -83,6 +83,14 @@ RSpec.describe Denv do
           expect(parser.parse).to eq('x' => '"a text with double quotes"', 'y' => '"345"')
         end
       end
+
+      context 'with erb template' do
+        let(:content) { "x=<%= 1 + 2 %>\n" }
+
+        it 'render and parse it' do
+          expect(parser.parse).to eq('x' => '3')
+        end
+      end
     end
   end
 end

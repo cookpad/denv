@@ -79,7 +79,7 @@ module Denv
     WHITE_SPACES = /\s/
 
     def initialize(io, filename)
-      @io = io
+      @io = ERB.new(io.read).result
       @filename = filename
     end
 
