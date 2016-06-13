@@ -41,6 +41,18 @@ puts ENV['AWESOME_SERVICE_CREDENTIAL'] #=> "xxxxxx"
 ### Rails integration
 denv automatically sets initializer for your Rails application, so you only have to write gem dependency to your Gemfile.
 
+### Retrieve credentials
+You can retrieve credentials from backend storage in envfile.
+
+```sh
+DB_PASSWORD=<%= retrieve('db.password') %>
+```
+
+```ruby
+Denv::Storage.type = Denv::Storage::CredStash
+Denv.load
+```
+
 ### Command line tool
 ```
 denv --help

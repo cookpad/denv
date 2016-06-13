@@ -1,4 +1,5 @@
 require "denv/version"
+require "denv/storage"
 
 module Denv
   class Error < StandardError
@@ -79,7 +80,7 @@ module Denv
     WHITE_SPACES = /\s/
 
     def initialize(io, filename)
-      @io = io
+      @io = ERB.new(io.read).result(binding)
       @filename = filename
     end
 
@@ -103,6 +104,10 @@ module Denv
       end
 
       env
+    end
+
+    def retrieve(name)
+      Storage.instance.get(name)
     end
   end
 end
