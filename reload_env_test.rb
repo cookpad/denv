@@ -13,13 +13,27 @@ Dir.chdir('tmp') do
   raise('Necessary keys are removed') unless ENV.has_key?('INIT')
   raise('Can not set env') unless ENV['YYY'] == '2'
 
-  File.write('.env', "XXX=1\n")
+  File.write('.env', "XXX=\nYYY=3\nZZZ=4")
   code = <<-EOS
     $LOAD_PATH.unshift("#{lib}")
     require 'denv'
     Denv.load
-    raise('Previous env vars are not removed') if ENV.has_key?('YYY')
-    raise('Necessary keys are removed') unless ENV.has_key?('XXX')
+
+    if ENV['XXX'] != ''
+      p ENV
+      raise('Previous env vars are not removed') 
+    end
+
+    if ENV['YYY'] != '3'
+      p ENV
+      raise('can not overwrite env var')
+    end
+
+    if ENV['ZZZ'] != '4'
+      p ENV
+      raise('can not add new env var')
+    end
+
     puts 'Success'
   EOS
   exec('ruby', '-e', code)

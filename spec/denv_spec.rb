@@ -20,6 +20,14 @@ RSpec.describe Denv do
         end
       end
 
+      context 'with empty string' do
+        let(:content) { "x=\ny=345" }
+
+        it 'inserts empty string' do
+          expect(parser.parse).to eq('x' => '', 'y' => '345')
+        end
+      end
+
       context 'with commentwith white space' do
         let(:content) { "x=123\n  # comment\ny=345\n" }
 
