@@ -10,3 +10,4 @@
 /spec/examples.txt
 /.env
 /tmp
+.ruby-version
