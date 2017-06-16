@@ -1,6 +1,58 @@
 require 'spec_helper'
 
 RSpec.describe Denv do
+  describe 'reloading env vars' do
+    before do
+      stub_const('ENV', previous)
+      allow(Denv).to receive(:open_file).and_yield(StringIO.new(content))
+    end
+
+    context 'when no entries are duplicated' do
+      let(:previous) { { 'x' => '1', 'y' => '2'} }
+      let(:content) { "z=1\nw=2\n" }
+
+      it 'does not replace entries' do
+        Denv.load
+        expect(ENV).to eq(
+          'x' => '1',
+          'y' => '2',
+          'z' => '1',
+          'w' => '2',
+          '__denv_previous_keys__' => 'z=w',
+        )
+      end
+    end
+
+    context 'when entries are duplicated' do
+      let(:previous) { { 'x' => '1', 'y' => '2'} }
+      let(:content) { "x=\nz=3\n" }
+
+      it 'replace old vars' do
+        Denv.load
+        expect(ENV).to eq(
+          'x' => '',
+          'y' => '2',
+          'z' => '3',
+          '__denv_previous_keys__' => 'x=z',
+        )
+      end
+    end
+
+    context 'when Denv.load is called previously' do
+      let(:previous) { { 'x' => '1', 'y' => '2', '__denv_previous_keys__' => 'x=y' } }
+      let(:content) { "x=\nz=3\n" }
+
+      it 'removes old vars' do
+        Denv.load
+        expect(ENV).to eq(
+          'x' => '',
+          'z' => '3',
+          '__denv_previous_keys__' => 'x=z',
+        )
+      end
+    end
+  end
+
   describe Denv::Parser do
     let(:parser) { described_class.new(StringIO.new(content), filename) }
     let(:filename) { '/config/.env' }
