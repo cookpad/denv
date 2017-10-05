@@ -1,4 +1,7 @@
 # CHANGELOG.md for denv
+## 0.2.6
+- Correctly load `.env.#{Rails.env}` files.
+
 ## 0.2.5
 - Correct loading order to overwirte default one #3
 
