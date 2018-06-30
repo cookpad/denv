@@ -1,5 +1,5 @@
 # denv
-[![Build Status](https://travis-ci.org/taiki45/denv.svg?branch=master)](https://travis-ci.org/taiki45/denv) [![Gem Version](https://badge.fury.io/rb/denv.svg)](https://badge.fury.io/rb/denv)
+[![Build Status](https://travis-ci.org/cookpad/denv.svg?branch=master)](https://travis-ci.org/cookpad/denv) [![Gem Version](https://badge.fury.io/rb/denv.svg)](https://badge.fury.io/rb/denv)
 
 denv = dotenv + Docker envfile format
 
